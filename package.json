@@ -1,0 +1,7 @@
+{
+    "dependencies": {
+        "infobox-parser": "^3.4.1",
+        "node-telegram-bot-api": "^0.50.0",
+        "wikijs": "^6.0.1"
+    }
+}

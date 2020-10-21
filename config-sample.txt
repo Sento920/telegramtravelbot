@@ -1,0 +1,8 @@
+// To use this config as fast as possible, rename it to config.js, and edit in your information.
+
+var config = {};
+
+config.telegrambotid = ""; //Get this from the Bot Father from when you create your bot.
+config.chatid = ""; //Get the chatid from the Telegram API Found here: https://api.telegram.org/bot[YOUR BOT ID HERE]/getUpdates
+
+module.exports = config;
