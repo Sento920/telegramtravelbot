@@ -8,6 +8,7 @@ var fs = require('fs');
 const token = config.telegrambotid;
 const bot = new TelegramBot(token, {polling: true});
 var msgId = '0';
+const save_to_file = true;
 
 // Listen for any kind of message. There are different kinds of
 // messages.
@@ -34,10 +35,15 @@ function GatherData(input, msgId){ // Here will be where we parse the data and h
       promises.push(page.content());
       promises.push(page.coordinates());
       Promise.all(promises).then(values => {
-        fs.writeFile('out.txt', JSON.stringify(values), function (err) {
-          if (err) throw err;
-          console.log('Saved!');
-        });
+        if(save_to_file){
+          var filename = "./saved_data/" + input + ".txt";
+          fs.writeFile( filename, JSON.stringify(values), function (err) {
+            if (err) throw err;
+            console.log('Saved to ' + filename);
+          });
+        }
+
+
       });
     }, 
     function reject(){ // Reject: We spit the user an error message, and let them handle it.
