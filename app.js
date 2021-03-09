@@ -2,6 +2,8 @@ const TelegramBot = require('node-telegram-bot-api');
 const wiki = require('wikijs').default;
 var config = require('./config');
 var fs = require('fs');
+var http = require('http');
+var handler = require('./html_generator');
 
 
 // replace the value below with the Telegram token you receive from @BotFather
@@ -11,6 +13,7 @@ var msgId = '0';
 const save_to_file = true;
 var filepath;
 var filename;
+handler.startup();
 
 // Listen for any kind of message. There are different kinds of
 // messages.
@@ -42,12 +45,11 @@ function GatherData(input, msgId){ // Here will be where we parse the data and h
       Promise.all(promises).then(values => {
         if(save_to_file){
           fs.promises.mkdir(filepath, { recursive: true }).catch(console.error);
-          fs.writeFile( filepath + filename, JSON.stringify(values), {recursive: true} , function (err) {
+          fs.writeFile( filepath + filename, JSON.stringify(values), function (err) {
             if (err) throw err;
             console.log('Saved to ' + filename);
           });
         }
-
 
       });
     }, 
