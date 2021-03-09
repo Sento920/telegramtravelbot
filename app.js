@@ -3,7 +3,7 @@ const wiki = require('wikijs').default;
 var config = require('./config');
 var fs = require('fs');
 var http = require('http');
-var handler = require('./html_generator');
+
 
 
 // replace the value below with the Telegram token you receive from @BotFather
@@ -13,7 +13,6 @@ var msgId = '0';
 const save_to_file = true;
 var filepath;
 var filename;
-handler.startup();
 
 // Listen for any kind of message. There are different kinds of
 // messages.
