@@ -9,6 +9,8 @@ const token = config.telegrambotid;
 const bot = new TelegramBot(token, {polling: true});
 var msgId = '0';
 const save_to_file = true;
+var filepath;
+var filename;
 
 // Listen for any kind of message. There are different kinds of
 // messages.
@@ -28,6 +30,9 @@ bot.on('message', (msg) => {
 
 function GatherData(input, msgId){ // Here will be where we parse the data and hand off to the wikipedia library.
   console.log('\nIncoming data: ' + input);
+  var sanitized = folderize(input);
+  filepath = "./saved_data/" + sanitized;
+  filename =  "/" + sanitized + "_wiki_data.txt";        
   wiki().page(input).then(
     function resolve(page){ //RESOLVE: Process Data.
       var promises = [];
@@ -36,8 +41,8 @@ function GatherData(input, msgId){ // Here will be where we parse the data and h
       promises.push(page.coordinates());
       Promise.all(promises).then(values => {
         if(save_to_file){
-          var filename = "./saved_data/" + input + ".txt";
-          fs.writeFile( filename, JSON.stringify(values), function (err) {
+          fs.promises.mkdir(filepath, { recursive: true }).catch(console.error);
+          fs.writeFile( filepath + filename, JSON.stringify(values), {recursive: true} , function (err) {
             if (err) throw err;
             console.log('Saved to ' + filename);
           });
@@ -51,5 +56,9 @@ function GatherData(input, msgId){ // Here will be where we parse the data and h
       bot.sendMessage(msgId, 'We didn\'t find an article for ' + input + '. Please Try a new search. ');
     });
 
+}
+
+function folderize(input){// regex for whitespace and symbol characters;
+  return input.replace(/\W/g, ""); 
 }
 
