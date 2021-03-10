@@ -4,8 +4,6 @@ var config = require('./config');
 var fs = require('fs');
 var http = require('http');
 
-
-
 // replace the value below with the Telegram token you receive from @BotFather
 const token = config.telegrambotid;
 const bot = new TelegramBot(token, {polling: true});
@@ -35,6 +33,16 @@ function GatherData(input, msgId){ // Here will be where we parse the data and h
   var sanitized = folderize(input);
   filepath = "./saved_data/" + sanitized;
   filename =  "/" + sanitized + "_wiki_data.txt";        
+  getWikiData(input);
+  ///getGoogleData(input);
+
+}
+
+function folderize(input){// regex for whitespace and symbol characters;
+  return input.replace(/\W/g, ""); 
+}
+
+function getWikiData(input){
   wiki().page(input).then(
     function resolve(page){ //RESOLVE: Process Data.
       var promises = [];
@@ -48,18 +56,19 @@ function GatherData(input, msgId){ // Here will be where we parse the data and h
             if (err) throw err;
             console.log('Saved to ' + filename);
           });
+        }else{
+          //Print to console.
+          console.log(JSON.stringify(values));
         }
-
       });
     }, 
     function reject(){ // Reject: We spit the user an error message, and let them handle it.
       console.log('Rejected');
       bot.sendMessage(msgId, 'We didn\'t find an article for ' + input + '. Please Try a new search. ');
-    });
-
+    }
+  );
 }
 
-function folderize(input){// regex for whitespace and symbol characters;
-  return input.replace(/\W/g, ""); 
-}
+function getGoogleData(input){
 
+}
