@@ -1,15 +1,16 @@
-{"scripts": {
+{
+  "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+    "google-maps": "^4.3.3",
     "infobox-parser": "^3.4.1",
     "next": "^10.0.8",
     "node-telegram-bot-api": "^0.50.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "wikijs": "^6.0.1"
-    }
-} 
-  
+  }
+}

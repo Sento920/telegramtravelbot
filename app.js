@@ -30,12 +30,14 @@ bot.on('message', (msg) => {
 
 function GatherData(input, msgId){ // Here will be where we parse the data and hand off to the wikipedia library.
   console.log('\nIncoming data: ' + input);
+  ProcessPageData();
+  /*
   var sanitized = folderize(input);
   filepath = "./saved_data/" + sanitized;
   filename =  "/" + sanitized + "_wiki_data.txt";        
   getWikiData(input);
-  ///getGoogleData(input);
-
+  //getGoogleData(input);
+  */
 }
 
 function folderize(input){// regex for whitespace and symbol characters;
@@ -70,5 +72,23 @@ function getWikiData(input){
 }
 
 function getGoogleData(input){
+}
 
+
+function ProcessPageData(){
+
+  fs.readFile('.\\saved_data\\RiverFallsWisconsin\\RiverFallsWisconsin_wiki_data.txt', 'utf8' , (err, data) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+    //console.log(data)
+     data = data.replace("\\n", "\n");
+    var sectionArray = JSON.parse(JSON.stringify(data.search(/:"(\w*)"/)));
+    console.log("\n~\n");
+    console.log(data);
+    console.log("\n~\n");
+    console.log(JSON.stringify(sectionArray));
+    console.log("\n~\n");
+  })
 }
