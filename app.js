@@ -76,17 +76,16 @@ function getGoogleData(input){
 function ProcessPageData(filepath){
   //default Path: 
   var backup = '.\\saved_data\\RiverFallsWisconsin\\RiverFallsWisconsin_wiki_data.txt';
-  if(filepath == ''){
-    filepath = backup;
+  if(filepath != ''){
+    fs.readFile(filepath, 'utf8' , (err, filedata) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+      // File is a saved JSON object, so Data should already be a parsed object.
+      console.log("~FileData~\n\n\n" + filedata) + "\n\n\n";
+    })
   }
-
-
-  fs.readFile(filepath, 'utf8' , (err, data) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-    // File is a saved JSON object, so Data should already be a parsed object.
-    console.log("~Data~\n\n\n" + data);
-  })
 }
+
+
