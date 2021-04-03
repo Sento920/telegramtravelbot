@@ -5,6 +5,7 @@ var config = {};
 config.telegrambotid = ""; //Get this from the Bot Father from when you create your bot.
 config.chatid = ""; //Get the chatid from the Telegram API Found here: https://api.telegram.org/bot[YOUR BOT ID HERE]/getUpdates
 config.port = ""; // Port you want the webpage to display from.
+config.save_to_file = true; // Saves a local copy of the un-edited Wikipedia data.
 config.googleapi = ""; // Google Developer API Key.
 
 module.exports = config;

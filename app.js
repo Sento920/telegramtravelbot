@@ -8,7 +8,6 @@ var http = require('http');
 const token = config.telegrambotid;
 const bot = new TelegramBot(token, {polling: true});
 var msgId = '0';
-const save_to_file = true;
 var filepath;
 var filename;
 
@@ -30,14 +29,13 @@ bot.on('message', (msg) => {
 
 function GatherData(input, msgId){ // Here will be where we parse the data and hand off to the wikipedia library.
   console.log('\nIncoming data: ' + input);
-  ProcessPageData();
-  /*
   var sanitized = folderize(input);
   filepath = "./saved_data/" + sanitized;
-  filename =  "/" + sanitized + "_wiki_data.txt";        
+  filename =  "/" + sanitized + "_wiki_data.txt";
+  var fullpath = filepath + filename;        
   getWikiData(input);
   //getGoogleData(input);
-  */
+  ProcessPageData(fullpath);
 }
 
 function folderize(input){// regex for whitespace and symbol characters;
@@ -52,7 +50,7 @@ function getWikiData(input){
       promises.push(page.content());
       promises.push(page.coordinates());
       Promise.all(promises).then(values => {
-        if(save_to_file){
+        if(config.save_to_file){
           fs.promises.mkdir(filepath, { recursive: true }).catch(console.error);
           fs.writeFile( filepath + filename, JSON.stringify(values), function (err) {
             if (err) throw err;
@@ -75,20 +73,20 @@ function getGoogleData(input){
 }
 
 
-function ProcessPageData(){
+function ProcessPageData(filepath){
+  //default Path: 
+  var backup = '.\\saved_data\\RiverFallsWisconsin\\RiverFallsWisconsin_wiki_data.txt';
+  if(filepath == ''){
+    filepath = backup;
+  }
 
-  fs.readFile('.\\saved_data\\RiverFallsWisconsin\\RiverFallsWisconsin_wiki_data.txt', 'utf8' , (err, data) => {
+
+  fs.readFile(filepath, 'utf8' , (err, data) => {
     if (err) {
       console.error(err)
       return
     }
-    //console.log(data)
-     data = data.replace("\\n", "\n");
-    var sectionArray = JSON.parse(JSON.stringify(data.search(/:"(\w*)"/)));
-    console.log("\n~\n");
-    console.log(data);
-    console.log("\n~\n");
-    console.log(JSON.stringify(sectionArray));
-    console.log("\n~\n");
+    // File is a saved JSON object, so Data should already be a parsed object.
+    console.log("~Data~\n\n\n" + data);
   })
 }
