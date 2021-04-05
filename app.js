@@ -84,6 +84,12 @@ function ProcessPageData(filepath){
       }
       // File is a saved JSON object, so Data should already be a parsed object.
       console.log("~FileData~\n\n\n" + filedata) + "\n\n\n";
+
+      // Processing portion
+
+
+      //close resources, save things.
+      fs.close();
     })
   }
 }
